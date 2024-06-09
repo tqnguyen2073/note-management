@@ -1,5 +1,5 @@
-import Note from "./models/note";
-import Label from "./models/label";
+import Note from "./note";
+import Label from "./label";
 export const LABELS = [
 new Label('l1', 'React Native'),
 new Label('l2', 'Final Exam'),
