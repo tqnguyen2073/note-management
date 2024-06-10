@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 
 const HomeStackNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen name="Notes" component={HomeScreen} />
     <Stack.Screen name="NewNote" component={NewNoteScreen} />
     <Stack.Screen name="EditNote" component={EditNoteScreen} />
     <Stack.Screen name="ManageLabels" component={ManageLabelsScreen} />

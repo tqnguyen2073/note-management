@@ -7,5 +7,5 @@ class Note {
     this.updateAt = updateAt;
     this.isBookmarked = isBookmarked;
     }
-    }
+}
     export default Note;

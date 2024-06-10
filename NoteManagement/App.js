@@ -5,7 +5,7 @@ import AppNavigator from './navigation/AppNavigator';
 import { name as appName } from './app.json';
 
 const App = () => {
-  return <AppNavigator />;
+  return <AppNavigator/>;
 };
 
 AppRegistry.registerComponent(appName, () => App);
