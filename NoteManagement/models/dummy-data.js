@@ -1,5 +1,12 @@
 import Note from "./note";
 import Label from "./label";
+import Folder from "../models/folder";
+
+export const FOLDERS = [
+new Folder('f1', 'Work'),
+new Folder('f2', 'Personal'),
+];
+
 export const LABELS = [
 new Label('l1', 'React Native'),
 new Label('l2', 'Final Exam'),
