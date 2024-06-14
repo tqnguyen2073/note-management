@@ -16,10 +16,7 @@ const ManageLabelsScreen = ({ route, navigation }) => {
       // Remove label from note
       note.labelIds.splice(labelIndex, 1);
     }
-
-    // Update note in NOTES array (for demonstration, in a real app, use state management or database)
     NOTES[noteIndex] = { ...note };
-
     // Navigate back to EditNoteScreen
     navigation.goBack();
   };

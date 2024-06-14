@@ -14,10 +14,8 @@ const EditNoteScreen = ({ route, navigation }) => {
   const actionSheetRef = useRef(); // Use useRef for ActionSheet
 
   const saveNote = () => {
-    // Update note in NOTES array (for demonstration, in a real app, use state management or database)
     NOTES[noteIndex].content = noteContent;
     NOTES[noteIndex].updateAt = new Date();
-    
     // Navigate back to HomeScreen
     navigation.navigate('Notes');
   };
@@ -25,8 +23,6 @@ const EditNoteScreen = ({ route, navigation }) => {
   const toggleBookmark = () => {
     // Toggle bookmark status
     setIsBookmarked(!isBookmarked);
-
-    // Update note in NOTES array (for demonstration, in a real app, use state management or database)
     NOTES[noteIndex].isBookmarked = !isBookmarked;
   };
 

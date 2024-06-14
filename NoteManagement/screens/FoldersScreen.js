@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, FlatList, Button, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { FOLDERS } from '../models/dummy-data';
+import SearchBar from '../components/SearchBar';
+import { searchFolders } from '../utils/search';
 
 const FoldersScreen = ({ navigation }) => {
+  const [searchText, setSearchText] = useState('');
 
+  const filteredFolders = searchFolders(FOLDERS, searchText);
   const renderFolderItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.folderButton}
@@ -15,12 +19,19 @@ const FoldersScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <SearchBar searchText={searchText} setSearchText={setSearchText} />
       <FlatList
-        data={FOLDERS}
+        data={filteredFolders}
         keyExtractor={(item) => item.id}
         renderItem={renderFolderItem}
         ListEmptyComponent={<Text style={styles.emptyText}>No folders found</Text>}
       />
+      {/* <FlatList
+        data={FOLDERS}
+        keyExtractor={(item) => item.id}
+        renderItem={renderFolderItem}
+        ListEmptyComponent={<Text style={styles.emptyText}>No folders found</Text>}
+      /> */}
       <Button
         title="Add Folder"
         onPress={() => {/* Navigate to add folder screen */}}
@@ -28,6 +39,7 @@ const FoldersScreen = ({ navigation }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

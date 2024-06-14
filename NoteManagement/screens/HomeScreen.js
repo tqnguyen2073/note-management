@@ -1,8 +1,13 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { NOTES } from '../models/dummy-data';
+import SearchBar from '../components/SearchBar';
+import { searchNotes } from '../utils/search';
 
 const HomeScreen = ({ navigation }) => {
+  const [searchText, setSearchText] = useState('');
+
+  const filteredNotes = searchNotes(NOTES, searchText);
 
   const renderNoteItem = ({ item }) => (
     <TouchableOpacity 
@@ -15,8 +20,9 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <SearchBar searchText={searchText} setSearchText={setSearchText} />
       <FlatList
-        data={NOTES}
+        data={filteredNotes}
         keyExtractor={(item) => item.id}
         renderItem={renderNoteItem}
         ListEmptyComponent={<Text style={styles.emptyText}>Please add a new note</Text>}

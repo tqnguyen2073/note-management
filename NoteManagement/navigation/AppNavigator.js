@@ -9,6 +9,7 @@ import TrashScreen from '../screens/TrashScreen';
 import NewNoteScreen from '../screens/NewNoteScreen';
 import EditNoteScreen from '../screens/EditNoteScreen';
 import ManageLabelsScreen from '../screens/ManageLabelsScreen';
+import { View } from 'react-native-reanimated/lib/typescript/Animated';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ const HomeStackNavigator = () => (
 
 const AppNavigator = () => (
   <NavigationContainer>
+    <View>Notes Management App</View>?
     <Drawer.Navigator>
       <Drawer.Screen name="Home" component={HomeStackNavigator} />
       <Drawer.Screen name="Labels" component={LabelsScreen} />

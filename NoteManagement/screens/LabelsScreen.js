@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { LABELS } from '../models/dummy-data';
+import SearchBar from '../components/SearchBar';
+import { searchLabels } from '../utils/search';
+
 
 const LabelsScreen = ({ navigation }) => {
-  const [keyword, setKeyword] = useState('');
-  const [filteredLabels, setFilteredLabels] = useState(LABELS);
+  
+  // const [keyword, setKeyword] = useState('');
+  // const [filteredLabels, setFilteredLabels] = useState(LABELS);
 
-  const searchLabels = () => {
-    const filtered = LABELS.filter(label => label.label.toLowerCase().includes(keyword.toLowerCase()));
-    setFilteredLabels(filtered);
-  };
+  const [searchText, setSearchText] = useState('');
+  const filteredLabels = searchLabels(LABELS, searchText);
 
   const renderLabelItem = ({ item }) => (
     <TouchableOpacity 
@@ -22,13 +24,7 @@ const LabelsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Search labels"        
-        onChangeText={setKeyword}
-        value={keyword}
-        onSubmitEditing={searchLabels}
-      />
+      <SearchBar searchText={searchText} setSearchText={setSearchText} />
       <FlatList
         data={filteredLabels}
         keyExtractor={(item) => item.id}

@@ -1,8 +1,13 @@
 import React from 'react';
 import { View, Button, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { TRASH } from '../models/dummy-data';
+import SearchBar from '../components/SearchBar';
+import { searchTrash } from '../utils/search';
 
 const TrashScreen = () => {
+  const [searchText, setSearchText] = useState('');
+
+  const filteredTrash = searchTrash(TRASH, searchText);
 
   const restoreNote = (noteId) => {
     const noteIndex = TRASH.findIndex((note) => note.id === noteId);
@@ -57,12 +62,19 @@ const TrashScreen = () => {
 
   return (
     <View style={styles.container}>
+      <SearchBar searchText={searchText} setSearchText={setSearchText} />
       <FlatList
+        data={filteredTrash}
+        keyExtractor={(item) => item.id}
+        renderItem={renderTrashItem}
+        ListEmptyComponent={<Text style={styles.emptyText}>Trash is empty</Text>}
+      />
+      {/* <FlatList
         data={TRASH}
         keyExtractor={(item) => item.id}
         renderItem={renderNoteItem}
         ListEmptyComponent={<Text style={styles.emptyText}>Trash is empty</Text>}
-      />
+      /> */}
       <View style={styles.bottomButtons}>
         <Button
           title="Restore All"
@@ -76,7 +88,9 @@ const TrashScreen = () => {
         />
       </View>
     </View>
-  );
+
+    
+  );  
 };
 
 const styles = StyleSheet.create({
