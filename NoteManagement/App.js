@@ -1,4 +1,4 @@
-
+import 'react-native-gesture-handler';
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';
