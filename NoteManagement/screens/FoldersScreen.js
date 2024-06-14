@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, FlatList, Button, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { FOLDERS } from '../models/dummy-data';
+import { FOLDERS } from '../data/dummy-data';
 import SearchBar from '../components/SearchBar';
-import { searchFolders } from '../utils/search';
+import { searchLabels } from '../utils/search';
 
 const FoldersScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -11,7 +11,7 @@ const FoldersScreen = ({ navigation }) => {
   const renderFolderItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.folderButton}
-      onPress={() => {/* Navigate to folder details */}}
+      onPress={() => {}}
     >
       <Text style={styles.folderText}>{item.name}</Text>
     </TouchableOpacity>
@@ -39,7 +39,6 @@ const FoldersScreen = ({ navigation }) => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
