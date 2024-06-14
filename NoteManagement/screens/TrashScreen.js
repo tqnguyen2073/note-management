@@ -68,7 +68,7 @@ const TrashScreen = () => {
         data={filteredTrash}
         keyExtractor={(item) => item.id}
         renderItem={renderNoteItem}
-        ListEmptyComponent={<Text style={styles.emptyText}>Trash is empty</Text>}
+        ListEmptyComponent={<Text style={styles.emptyText}>Trash is not found</Text>}
       />
       {/* <FlatList
         data={TRASH}

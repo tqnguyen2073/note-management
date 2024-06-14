@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { NOTES, TRASH } from '../models/dummy-data';
 import ActionSheet from 'react-native-actions-sheet'; // Import ActionSheet
@@ -13,16 +13,15 @@ const EditNoteScreen = ({ route, navigation }) => {
   const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
   const actionSheetRef = useRef(); // Use useRef for ActionSheet
 
-  const saveNote = () => {
+  const handleSaveNote = () => {
     // Update note in NOTES array (for demonstration, in a real app, use state management or database)
     NOTES[noteIndex].content = noteContent;
     NOTES[noteIndex].updateAt = new Date();
-    
     // Navigate back to HomeScreen
     navigation.navigate('Notes');
   };
 
-  const toggleBookmark = () => {
+  const handleToggleBookmark = () => {
     // Toggle bookmark status
     setIsBookmarked(!isBookmarked);
 
@@ -84,7 +83,7 @@ const EditNoteScreen = ({ route, navigation }) => {
       />
       <TouchableOpacity
         style={styles.bookmarkButton}
-        onPress={toggleBookmark}
+        onPress={handleToggleBookmark}
       >
         <Icon name={isBookmarked ? 'star' : 'star-border'} size={30} color={isBookmarked ? 'gold' : 'gray'} />
         <Text style={styles.bookmarkText}>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</Text>
@@ -97,7 +96,7 @@ const EditNoteScreen = ({ route, navigation }) => {
       </TouchableOpacity>
       <Button
         title={isEditing ? "Save Changes" : "Edit Note"}
-        onPress={isEditing ? saveNote : toggleEditMode}
+        onPress={isEditing ? handleSaveNote : toggleEditMode}
       />
       <Button
         title="Delete Note"

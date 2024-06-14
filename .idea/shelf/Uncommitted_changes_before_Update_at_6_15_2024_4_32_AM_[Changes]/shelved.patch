@@ -1,0 +1,55 @@
+Index: NoteManagement/screens/HomeScreen.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from 'react';\r\nimport { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';\r\nimport { NOTES } from '../models/dummy-data';\r\n\r\nconst HomeScreen = ({ navigation }) => {\r\n\r\n  const renderNoteItem = ({ item }) => (\r\n    <TouchableOpacity \r\n      style={[styles.noteItem, { backgroundColor: item.color || 'white' }]}\r\n      onPress={() => navigation.navigate('EditNote', { noteId: item.id })}\r\n    >\r\n      <Text>{item.content}</Text>\r\n    </TouchableOpacity>\r\n  );\r\n\r\n  return (\r\n    <View style={styles.container}>\r\n      <FlatList\r\n        data={NOTES}\r\n        keyExtractor={(item) => item.id}\r\n        renderItem={renderNoteItem}\r\n        ListEmptyComponent={<Text style={styles.emptyText}>Please add a new note</Text>}\r\n      />\r\n      <TouchableOpacity\r\n        style={styles.addButton}\r\n        onPress={() => navigation.navigate('NewNote')}\r\n      >\r\n        <Text style={styles.addButtonText}>+</Text>\r\n      </TouchableOpacity>\r\n    </View>\r\n  );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n  container: {\r\n    flex: 1,\r\n    padding: 10,\r\n  },\r\n  noteItem: {\r\n    padding: 10,\r\n    marginBottom: 10,\r\n    borderRadius: 5,\r\n  },\r\n  emptyText: {\r\n    textAlign: 'center',\r\n    marginTop: 20,\r\n    fontSize: 16,\r\n  },\r\n  addButton: {\r\n    position: 'absolute',\r\n    bottom: 20,\r\n    right: 20,\r\n    width: 50,\r\n    height: 50,\r\n    backgroundColor: 'lightblue',\r\n    borderRadius: 25,\r\n    alignItems: 'center',\r\n    justifyContent: 'center',\r\n    elevation: 3,\r\n  },\r\n  addButtonText: {\r\n    fontSize: 30,\r\n    color: 'white',\r\n  },\r\n});\r\n\r\nexport default HomeScreen;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/NoteManagement/screens/HomeScreen.js b/NoteManagement/screens/HomeScreen.js
+--- a/NoteManagement/screens/HomeScreen.js	(revision 758275d534403cd5577c8a90d1f72534df8d3dd3)
++++ b/NoteManagement/screens/HomeScreen.js	(date 1718396421081)
+@@ -1,9 +1,8 @@
+ import React from 'react';
+ import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+-import { NOTES } from '../models/dummy-data';
++import { NOTES} from '../models/dummy-data';
+ 
+ const HomeScreen = ({ navigation }) => {
+-
+   const renderNoteItem = ({ item }) => (
+     <TouchableOpacity 
+       style={[styles.noteItem, { backgroundColor: item.color || 'white' }]}
+Index: NoteManagement/screens/EditNoteScreen.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState, useRef } from 'react';\r\nimport { View, TextInput, Button, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';\r\nimport { NOTES, TRASH } from '../models/dummy-data';\r\nimport ActionSheet from 'react-native-actions-sheet'; // Import ActionSheet\r\nimport Icon from 'react-native-vector-icons/MaterialIcons'; // Import Icon from react-native-vector-icons\r\n\r\nconst EditNoteScreen = ({ route, navigation }) => {\r\n  const { noteId } = route.params;\r\n  const noteIndex = NOTES.findIndex((note) => note.id === noteId);\r\n  const note = NOTES[noteIndex];\r\n  const [noteContent, setNoteContent] = useState(note.content);\r\n  const [isBookmarked, setIsBookmarked] = useState(note.isBookmarked);\r\n  const [isEditing, setIsEditing] = useState(false); // Toggle edit mode\r\n  const actionSheetRef = useRef(); // Use useRef for ActionSheet\r\n\r\n  const saveNote = () => {\r\n    // Update note in NOTES array (for demonstration, in a real app, use state management or database)\r\n    NOTES[noteIndex].content = noteContent;\r\n    NOTES[noteIndex].updateAt = new Date();\r\n    \r\n    // Navigate back to HomeScreen\r\n    navigation.navigate('Notes');\r\n  };\r\n\r\n  const toggleBookmark = () => {\r\n    // Toggle bookmark status\r\n    setIsBookmarked(!isBookmarked);\r\n\r\n    // Update note in NOTES array (for demonstration, in a real app, use state management or database)\r\n    NOTES[noteIndex].isBookmarked = !isBookmarked;\r\n  };\r\n\r\n  const openBottomSheetMenu = () => {\r\n    // Open ActionSheet\r\n    actionSheetRef.current?.setModalVisible(); // Ensure ref is used properly\r\n  };\r\n\r\n  const changeNoteColor = (color) => {\r\n    // Implement changing note color logic here\r\n    NOTES[noteIndex].color = color;\r\n    actionSheetRef.current?.setModalVisible(false); // Close ActionSheet\r\n  };\r\n\r\n  const manageLabels = () => {\r\n    // Navigate to Manage Labels screen\r\n    navigation.navigate('ManageLabels', { noteId });\r\n    actionSheetRef.current?.setModalVisible(false); // Close ActionSheet after navigation\r\n  };\r\n\r\n  const moveToTrash = () => {\r\n    // Move note to Trash\r\n    TRASH.push(NOTES[noteIndex]);\r\n    NOTES.splice(noteIndex, 1);\r\n    actionSheetRef.current?.setModalVisible(false); // Close ActionSheet\r\n    navigation.navigate('Notes'); // Navigate back to HomeScreen after moving to Trash\r\n  };\r\n\r\n  const toggleEditMode = () => {\r\n    setIsEditing(!isEditing);\r\n  };\r\n\r\n  const deleteNote = () => {\r\n    Alert.alert(\r\n      \"Delete Note\",\r\n      \"Are you sure you want to delete this note?\",\r\n      [\r\n        { text: \"Cancel\", style: \"cancel\" },\r\n        { text: \"Delete\", style: \"destructive\", onPress: () => {\r\n          NOTES.splice(noteIndex, 1);\r\n          navigation.navigate('Notes');\r\n        }},\r\n      ]\r\n    );\r\n  };\r\n\r\n  return (\r\n    <View style={styles.container}>\r\n      <TextInput\r\n        style={[styles.input, { backgroundColor: note.color || 'white' }]}\r\n        multiline\r\n        editable={isEditing}\r\n        value={noteContent}\r\n        onChangeText={setNoteContent}\r\n      />\r\n      <TouchableOpacity\r\n        style={styles.bookmarkButton}\r\n        onPress={toggleBookmark}\r\n      >\r\n        <Icon name={isBookmarked ? 'star' : 'star-border'} size={30} color={isBookmarked ? 'gold' : 'gray'} />\r\n        <Text style={styles.bookmarkText}>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</Text>\r\n      </TouchableOpacity>\r\n      <TouchableOpacity\r\n        style={styles.bottomSheetButton}\r\n        onPress={openBottomSheetMenu}\r\n      >\r\n        <Text style={styles.bottomSheetText}>Open Bottom Sheet Menu</Text>\r\n      </TouchableOpacity>\r\n      <Button\r\n        title={isEditing ? \"Save Changes\" : \"Edit Note\"}\r\n        onPress={isEditing ? saveNote : toggleEditMode}\r\n      />\r\n      <Button\r\n        title=\"Delete Note\"\r\n        color=\"red\"\r\n        onPress={deleteNote}\r\n      />\r\n\r\n      {/* ActionSheet Component */}\r\n      <ActionSheet ref={actionSheetRef}>\r\n        <View style={styles.actionSheetContent}>\r\n          <TouchableOpacity style={styles.actionButton} onPress={() => changeNoteColor('lightseagreen')}>\r\n            <Text>Change Color to Light Sea Green</Text>\r\n          </TouchableOpacity>\r\n          <TouchableOpacity style={styles.actionButton} onPress={() => changeNoteColor('skyblue')}>\r\n            <Text>Change Color to Sky Blue</Text>\r\n          </TouchableOpacity>\r\n          <TouchableOpacity style={styles.actionButton} onPress={manageLabels}>\r\n            <Text>Manage Labels</Text>\r\n          </TouchableOpacity>\r\n          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'red' }]} onPress={moveToTrash}>\r\n            <Text style={{ color: 'white' }}>Move to Trash</Text>\r\n          </TouchableOpacity>\r\n        </View>\r\n      </ActionSheet>\r\n    </View>\r\n  );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n  container: {\r\n    flex: 1,\r\n    padding: 10,\r\n  },\r\n  input: {\r\n    flex: 1,\r\n    borderColor: 'gray',\r\n    borderWidth: 1,\r\n    padding: 10,\r\n    marginBottom: 20,\r\n    borderRadius: 5,\r\n  },\r\n  bookmarkButton: {\r\n    padding: 10,\r\n    backgroundColor: 'lightblue',\r\n    borderRadius: 5,\r\n    marginBottom: 10,\r\n  },\r\n  bookmarkText: {\r\n    color: 'white',\r\n    textAlign: 'center',\r\n  },\r\n  bottomSheetButton: {\r\n    padding: 10,\r\n    backgroundColor: 'lightgray',\r\n    borderRadius: 5,\r\n  },\r\n  bottomSheetText: {\r\n    color: 'black',\r\n    textAlign: 'center',\r\n  },\r\n  actionSheetContent: {\r\n    padding: 20,\r\n  },\r\n  actionButton: {\r\n    padding: 15,\r\n    borderBottomWidth: 1,\r\n    borderBottomColor: '#f2f2f2',\r\n  },\r\n});\r\n\r\nexport default EditNoteScreen;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/NoteManagement/screens/EditNoteScreen.js b/NoteManagement/screens/EditNoteScreen.js
+--- a/NoteManagement/screens/EditNoteScreen.js	(revision 758275d534403cd5577c8a90d1f72534df8d3dd3)
++++ b/NoteManagement/screens/EditNoteScreen.js	(date 1718396073481)
+@@ -17,7 +17,7 @@
+     // Update note in NOTES array (for demonstration, in a real app, use state management or database)
+     NOTES[noteIndex].content = noteContent;
+     NOTES[noteIndex].updateAt = new Date();
+-    
++
+     // Navigate back to HomeScreen
+     navigation.navigate('Notes');
+   };
+Index: NoteManagement/App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\nimport React from 'react';\r\nimport { AppRegistry } from 'react-native';\r\nimport AppNavigator from './navigation/AppNavigator';\r\nimport { name as appName } from './app.json';\r\n\r\nconst App = () => {\r\n  return <AppNavigator/>;\r\n};\r\n\r\nAppRegistry.registerComponent(appName, () => App);\r\nexport default App;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/NoteManagement/App.js b/NoteManagement/App.js
+--- a/NoteManagement/App.js	(revision 758275d534403cd5577c8a90d1f72534df8d3dd3)
++++ b/NoteManagement/App.js	(date 1718395811517)
+@@ -1,4 +1,3 @@
+-
+ import React from 'react';
+ import { AppRegistry } from 'react-native';
+ import AppNavigator from './navigation/AppNavigator';

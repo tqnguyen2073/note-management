@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, FlatList, Button, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { FOLDERS } from '../data/dummy-data';
+import { FOLDERS } from '../models/dummy-data';
 import SearchBar from '../components/SearchBar';
-import { searchLabels } from '../utils/search';
+import { searchFolders } from '../utils/search';
 
 const FoldersScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
