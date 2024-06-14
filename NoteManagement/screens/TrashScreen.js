@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Button, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { TRASH } from '../models/dummy-data';
 import SearchBar from '../components/SearchBar';
 import { searchTrash } from '../utils/search';
+import { NOTES } from '../models/dummy-data';
 
 const TrashScreen = () => {
   const [searchText, setSearchText] = useState('');
@@ -66,7 +67,7 @@ const TrashScreen = () => {
       <FlatList
         data={filteredTrash}
         keyExtractor={(item) => item.id}
-        renderItem={renderTrashItem}
+        renderItem={renderNoteItem}
         ListEmptyComponent={<Text style={styles.emptyText}>Trash is empty</Text>}
       />
       {/* <FlatList
