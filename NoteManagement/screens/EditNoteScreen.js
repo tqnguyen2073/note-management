@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { NOTES, TRASH } from '../models/dummy-data';
 import ActionSheet from 'react-native-actions-sheet'; // Import ActionSheet
+import Icon from 'react-native-vector-icons/MaterialIcons'; // Import Icon from react-native-vector-icons
 
 const EditNoteScreen = ({ route, navigation }) => {
   const { noteId } = route.params;
@@ -85,6 +86,7 @@ const EditNoteScreen = ({ route, navigation }) => {
         style={styles.bookmarkButton}
         onPress={toggleBookmark}
       >
+        <Icon name={isBookmarked ? 'star' : 'star-border'} size={30} color={isBookmarked ? 'gold' : 'gray'} />
         <Text style={styles.bookmarkText}>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</Text>
       </TouchableOpacity>
       <TouchableOpacity
