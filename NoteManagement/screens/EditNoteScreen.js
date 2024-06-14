@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { NOTES } from '../models/dummy-data';
+import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import { NOTES, TRASH } from '../models/dummy-data';
 import ActionSheet from 'react-native-actions-sheet'; // Import ActionSheet
 
 const EditNoteScreen = ({ route, navigation }) => {
@@ -9,13 +9,14 @@ const EditNoteScreen = ({ route, navigation }) => {
   const note = NOTES[noteIndex];
   const [noteContent, setNoteContent] = useState(note.content);
   const [isBookmarked, setIsBookmarked] = useState(note.isBookmarked);
+  const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
   const actionSheetRef = useRef(); // Use useRef for ActionSheet
 
   const saveNote = () => {
     // Update note in NOTES array (for demonstration, in a real app, use state management or database)
     NOTES[noteIndex].content = noteContent;
     NOTES[noteIndex].updateAt = new Date();
-
+    
     // Navigate back to HomeScreen
     navigation.navigate('Notes');
   };
@@ -47,8 +48,28 @@ const EditNoteScreen = ({ route, navigation }) => {
 
   const moveToTrash = () => {
     // Move note to Trash
-    // Implement logic to move note to Trash (you might need to update NOTES and TRASH arrays)
+    TRASH.push(NOTES[noteIndex]);
+    NOTES.splice(noteIndex, 1);
     actionSheetRef.current?.setModalVisible(false); // Close ActionSheet
+    navigation.navigate('Notes'); // Navigate back to HomeScreen after moving to Trash
+  };
+
+  const toggleEditMode = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const deleteNote = () => {
+    Alert.alert(
+      "Delete Note",
+      "Are you sure you want to delete this note?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", style: "destructive", onPress: () => {
+          NOTES.splice(noteIndex, 1);
+          navigation.navigate('Notes');
+        }},
+      ]
+    );
   };
 
   return (
@@ -56,6 +77,7 @@ const EditNoteScreen = ({ route, navigation }) => {
       <TextInput
         style={[styles.input, { backgroundColor: note.color || 'white' }]}
         multiline
+        editable={isEditing}
         value={noteContent}
         onChangeText={setNoteContent}
       />
@@ -72,24 +94,31 @@ const EditNoteScreen = ({ route, navigation }) => {
         <Text style={styles.bottomSheetText}>Open Bottom Sheet Menu</Text>
       </TouchableOpacity>
       <Button
-        title="Save Note"
-        onPress={saveNote}
+        title={isEditing ? "Save Changes" : "Edit Note"}
+        onPress={isEditing ? saveNote : toggleEditMode}
+      />
+      <Button
+        title="Delete Note"
+        color="red"
+        onPress={deleteNote}
       />
 
       {/* ActionSheet Component */}
       <ActionSheet ref={actionSheetRef}>
-        <TouchableOpacity style={styles.actionButton} onPress={() => changeNoteColor('lightseagreen')}>
-          <Text>Change Color to Light Sea Green</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={() => changeNoteColor('skyblue')}>
-          <Text>Change Color to Sky Blue</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={manageLabels}>
-          <Text>Manage Labels</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'red' }]} onPress={moveToTrash}>
-          <Text style={{ color: 'white' }}>Move to Trash</Text>
-        </TouchableOpacity>
+        <View style={styles.actionSheetContent}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => changeNoteColor('lightseagreen')}>
+            <Text>Change Color to Light Sea Green</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={() => changeNoteColor('skyblue')}>
+            <Text>Change Color to Sky Blue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton} onPress={manageLabels}>
+            <Text>Manage Labels</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'red' }]} onPress={moveToTrash}>
+            <Text style={{ color: 'white' }}>Move to Trash</Text>
+          </TouchableOpacity>
+        </View>
       </ActionSheet>
     </View>
   );
@@ -126,6 +155,9 @@ const styles = StyleSheet.create({
   bottomSheetText: {
     color: 'black',
     textAlign: 'center',
+  },
+  actionSheetContent: {
+    padding: 20,
   },
   actionButton: {
     padding: 15,
