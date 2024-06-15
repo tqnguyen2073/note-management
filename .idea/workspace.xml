@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="8cceb9f0-8f0a-4cc9-bd02-f283875cbf97" name="Changes" comment="fix search">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NoteManagement/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/EditNoteScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/EditNoteScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/FoldersScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/FoldersScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/HomeScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/NewNoteScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/NewNoteScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/TrashScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/TrashScreen.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +44,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Asus/OneDrive - hanu.edu.vn/Desktop/Nam3/MPR/Expression Game"
+    "last_opened_file_path": "C:/Users/Asus/Downloads/note-management-fixed"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
