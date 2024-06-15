@@ -1,32 +1,41 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
-import { NOTES, TRASH } from '../models/dummy-data';
+import { View, TextInput, Button, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import ActionSheet from 'react-native-actions-sheet'; // Import ActionSheet
 import Icon from 'react-native-vector-icons/MaterialIcons'; // Import Icon from react-native-vector-icons
+import { useContext } from 'react';
+import { appContext } from '../context';
 
 const EditNoteScreen = ({ route, navigation }) => {
   const { noteId } = route.params;
-  const noteIndex = NOTES.findIndex((note) => note.id === noteId);
-  const note = NOTES[noteIndex];
-  const [noteContent, setNoteContent] = useState(note.content);
-  const [isBookmarked, setIsBookmarked] = useState(note.isBookmarked);
+  const { state, dispatch } = useContext(appContext)
+  const note = state.notes.find(n => n.id === noteId)
+  const isBookmarked = note?.isBookmarked;
+
+  if (!note) {
+    return (<View><Text>No</Text></View>)
+  }
+
+  const [noteContent, setNoteContent] = useState(note?.content);
   const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
   const actionSheetRef = useRef(); // Use useRef for ActionSheet
 
-  const handleSaveNote = () => {
+
+  const handleSaveNote = ({ navigate = true }) => {
     // Update note in NOTES array (for demonstration, in a real app, use state management or database)
-    NOTES[noteIndex].content = noteContent;
-    NOTES[noteIndex].updateAt = new Date();
+    dispatch({
+      type: 'UPDATE',
+      payload: {
+        id: noteId,
+        note: {
+          content: noteContent,
+          isBookmarked: !isBookmarked,
+        }
+      }
+    })
     // Navigate back to HomeScreen
-    navigation.navigate('Notes');
-  };
-
-  const handleToggleBookmark = () => {
-    // Toggle bookmark status
-    setIsBookmarked(!isBookmarked);
-
-    // Update note in NOTES array (for demonstration, in a real app, use state management or database)
-    NOTES[noteIndex].isBookmarked = !isBookmarked;
+    if (navigate) {
+      navigation.navigate('Notes');
+    }
   };
 
   const openBottomSheetMenu = () => {
@@ -36,7 +45,6 @@ const EditNoteScreen = ({ route, navigation }) => {
 
   const changeNoteColor = (color) => {
     // Implement changing note color logic here
-    NOTES[noteIndex].color = color;
     actionSheetRef.current?.setModalVisible(false); // Close ActionSheet
   };
 
@@ -46,30 +54,20 @@ const EditNoteScreen = ({ route, navigation }) => {
     actionSheetRef.current?.setModalVisible(false); // Close ActionSheet after navigation
   };
 
-  const moveToTrash = () => {
-    // Move note to Trash
-    TRASH.push(NOTES[noteIndex]);
-    NOTES.splice(noteIndex, 1);
-    actionSheetRef.current?.setModalVisible(false); // Close ActionSheet
-    navigation.navigate('Notes'); // Navigate back to HomeScreen after moving to Trash
-  };
-
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
 
   const deleteNote = () => {
-    Alert.alert(
-      "Delete Note",
-      "Are you sure you want to delete this note?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Delete", style: "destructive", onPress: () => {
-          NOTES.splice(noteIndex, 1);
-          navigation.navigate('Notes');
-        }},
-      ]
-    );
+    dispatch({
+      type: 'DELETE',
+      payload: {
+        id: noteId,
+        note,
+      }
+    })
+
+    navigation.goBack();
   };
 
   return (
@@ -83,7 +81,7 @@ const EditNoteScreen = ({ route, navigation }) => {
       />
       <TouchableOpacity
         style={styles.bookmarkButton}
-        onPress={handleToggleBookmark}
+        onPress={() => handleSaveNote({ navigate: false })}
       >
         <Icon name={isBookmarked ? 'star' : 'star-border'} size={30} color={isBookmarked ? 'gold' : 'gray'} />
         <Text style={styles.bookmarkText}>{isBookmarked ? 'Bookmarked' : 'Bookmark'}</Text>
@@ -116,7 +114,7 @@ const EditNoteScreen = ({ route, navigation }) => {
           <TouchableOpacity style={styles.actionButton} onPress={manageLabels}>
             <Text>Manage Labels</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'red' }]} onPress={moveToTrash}>
+          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'red' }]} onPress={null}>
             <Text style={{ color: 'white' }}>Move to Trash</Text>
           </TouchableOpacity>
         </View>

@@ -6,7 +6,7 @@ import { searchLabels } from '../utils/search';
 
 
 const LabelsScreen = ({ navigation }) => {
-  
+
   // const [keyword, setKeyword] = useState('');
   // const [filteredLabels, setFilteredLabels] = useState(LABELS);
 
@@ -14,7 +14,7 @@ const LabelsScreen = ({ navigation }) => {
   const filteredLabels = searchLabels(LABELS, searchText);
 
   const renderLabelItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.labelButton}
       onPress={() => navigation.navigate('EditLabel', { labelId: item.id })}
     >

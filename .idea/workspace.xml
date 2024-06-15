@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cceb9f0-8f0a-4cc9-bd02-f283875cbf97" name="Changes" comment="fix search">
-      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/EditNoteScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/EditNoteScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/FoldersScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/FoldersScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/HomeScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NoteManagement/screens/TrashScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/NoteManagement/screens/TrashScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,18 +29,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Asus/OneDrive - hanu.edu.vn/Desktop/Nam3/MPR/note-management&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Asus/OneDrive - hanu.edu.vn/Desktop/Nam3/MPR/Expression Game"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

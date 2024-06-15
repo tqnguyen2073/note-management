@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { NOTES } from '../models/dummy-data';
+import { useContext } from 'react';
+import { appContext } from '../context';
 
 const NewNoteScreen = ({ navigation }) => {
   const [noteContent, setNoteContent] = useState('');
+
+  const { state, dispatch } = useContext(appContext);
+
 
   const saveNote = () => {
     const newNote = {
@@ -15,10 +20,14 @@ const NewNoteScreen = ({ navigation }) => {
       isBookmarked: false,
     };
 
-    // Update NOTES array (for demonstration, in a real app, use state management or database)
-    NOTES.push(newNote);
 
-    // Navigate back to HomeScreen
+    dispatch({
+      type: 'ADD',
+      payload: {
+        note: newNote
+      }
+    })
+
     navigation.navigate('Notes');
   };
 

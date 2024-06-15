@@ -1,44 +1,49 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Button, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { TRASH } from '../models/dummy-data';
 import SearchBar from '../components/SearchBar';
 import { searchTrash } from '../utils/search';
 import { NOTES } from '../models/dummy-data';
 
+import { useContext } from 'react';
+import { appContext } from '../context';
+
 const TrashScreen = () => {
   const [searchText, setSearchText] = useState('');
 
-  const filteredTrash = searchTrash(TRASH, searchText);
+  const { state, dispatch } = useContext(appContext)
 
-  const restoreNote = (noteId) => {
-    const noteIndex = TRASH.findIndex((note) => note.id === noteId);
-    const restoredNote = TRASH[noteIndex];
 
-    // Remove from TRASH
-    TRASH.splice(noteIndex, 1);
+  const filteredTrash = searchTrash(state.trash, searchText);
 
-    // Update NOTES array (for demonstration, in a real app, use state management or database)
-    // Here, assuming restored notes go back to NOTES array (you may need to adjust this based on your app logic)
-    NOTES.push(restoredNote);
+  const restoreNote = (noteId, note) => {
+    dispatch({
+      type: 'RESTORE',
+      payload: {
+        id: noteId,
+        note
+      }
+    })
   };
 
   const deleteNotePermanently = (noteId) => {
-    const noteIndex = TRASH.findIndex((note) => note.id === noteId);
-
-    // Remove from TRASH
-    TRASH.splice(noteIndex, 1);
+    dispatch({
+      type: 'DELETE_PER',
+      payload: {
+        id: noteId,
+      }
+    })
   };
 
   const renderNoteItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[styles.noteItem, { backgroundColor: item.color || 'white' }]}
-      onPress={() => {/* Implement navigate to note details */}}
+      onPress={() => {/* Implement navigate to note details */ }}
     >
       <Text>{item.content}</Text>
       <View style={styles.buttonContainer}>
         <Button
           title="Restore"
-          onPress={() => restoreNote(item.id)}
+          onPress={() => restoreNote(item.id, item)}
           color="green"
         />
         <Button
@@ -51,14 +56,15 @@ const TrashScreen = () => {
   );
 
   const restoreAllNotes = () => {
-    // Restore all notes logic
-    NOTES.push(...TRASH);
-    TRASH.length = 0; // Clear TRASH array
+    dispatch({
+      type: 'RESTORE_ALL',
+    })
   };
 
   const emptyTrash = () => {
-    // Clear TRASH array
-    TRASH.length = 0;
+    dispatch({
+      type: 'DELETE_ALL',
+    })
   };
 
   return (
@@ -70,28 +76,23 @@ const TrashScreen = () => {
         renderItem={renderNoteItem}
         ListEmptyComponent={<Text style={styles.emptyText}>Trash is not found</Text>}
       />
-      {/* <FlatList
-        data={TRASH}
-        keyExtractor={(item) => item.id}
-        renderItem={renderNoteItem}
-        ListEmptyComponent={<Text style={styles.emptyText}>Trash is empty</Text>}
-      /> */}
+
       <View style={styles.bottomButtons}>
         <Button
           title="Restore All"
           onPress={restoreAllNotes}
-          disabled={TRASH.length === 0}
+          disabled={state.trash.length === 0}
         />
         <Button
           title="Empty Trash"
           onPress={emptyTrash}
-          disabled={TRASH.length === 0}
+          disabled={state.trash.length === 0}
         />
       </View>
     </View>
 
-    
-  );  
+
+  );
 };
 
 const styles = StyleSheet.create({

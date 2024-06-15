@@ -22,7 +22,7 @@ const ManageLabelsScreen = ({ route, navigation }) => {
   };
 
   const renderLabelItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[styles.labelButton, { backgroundColor: note.labelIds.includes(item.id) ? 'lightblue' : 'lightgray' }]}
       onPress={() => toggleLabel(item.id)}
     >

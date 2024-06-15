@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { NOTES } from '../models/dummy-data';
 import SearchBar from '../components/SearchBar';
 import { searchNotes } from '../utils/search';
+import { useContext } from 'react';
+import { appContext } from '../context';
 
 const HomeScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
+  const { state } = useContext(appContext)
 
-  const filteredNotes = searchNotes(NOTES, searchText);
+  const filteredNotes = searchNotes(state.notes, searchText);
 
   const renderNoteItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[styles.noteItem, { backgroundColor: item.color || 'white' }]}
       onPress={() => navigation.navigate('EditNote', { noteId: item.id })}
     >
@@ -20,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SearchBar searchText={searchText} setSearchText={setSearchText}/>
+      <SearchBar searchText={searchText} setSearchText={setSearchText} />
       <FlatList
         data={filteredNotes}
         keyExtractor={(item) => item.id}
